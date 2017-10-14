@@ -7,26 +7,19 @@ import {
   View
 } from 'react-native';
 
+import Banner from '../components/Banner'
+import ReceiptList from '../components/ReceiptList'
 
 export default class ReceiptsScreen extends React.Component {
   static navigationOptions = {
     tabBarLabel: 'Receipts'
-  };
+  }
 
   render() {
     return (
       <View style={styles.screen}>
-        <View style={styles.banner}>
-          <Text style={styles.bannerText}>
-            Grocery Guru
-          </Text>
-        </View>
-        <View
-          style={styles.uploadButton} >
-          <Text>
-            Receipts
-          </Text>
-        </View>
+        <Banner />
+        <ReceiptList />
       </View>
     );
   }
@@ -37,19 +30,4 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     backgroundColor: '#F5FCFF',
   },
-  banner: {
-    backgroundColor: '#3273dc',
-    padding: 24,
-  },
-  bannerText: {
-    fontSize: 50,
-    color: '#F5FCFF',
-    fontWeight: 'bold',
-  },
-  uploadButton: {
-    backgroundColor: '#00d1b2',
-    padding: 24,
-    margin: 48,
-    height: 200
-  }
 });

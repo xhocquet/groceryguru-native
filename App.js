@@ -30,3 +30,7 @@ export const GroceryGuruApp = TabNavigator({
   }
 });
 
+// Needs to be obfuscated
+export const ApiEndpoints = {
+  receiptList: "http://192.168.1.143:3000/receipts.json"
+}
