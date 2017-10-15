@@ -27,8 +27,13 @@ export default class HomeScreen extends React.Component {
         <View
           onPress={onPressUpload}
           style={styles.uploadButton} >
-          <Text>
+          <Text style={styles.uploadButtonText}>
             Upload receipt
+          </Text>
+        </View>
+        <View style={styles.settingsButton} >
+          <Text style={styles.settingsButtonText} >
+            Settings
           </Text>
         </View>
       </View>
@@ -44,7 +49,29 @@ const styles = StyleSheet.create({
   uploadButton: {
     backgroundColor: '#00d1b2',
     padding: 24,
-    margin: 24,
-    height: 200
+    marginTop: 96,
+    marginLeft: 24,
+    marginRight: 24,
+    height: 200,
+    justifyContent: 'center'
+  },
+  uploadButtonText: {
+    textAlign: 'center',
+    fontSize: 36,
+    fontWeight: 'bold',
+    color: 'white'
+  },
+  settingsButton: {
+    marginTop: 48,
+    justifyContent: 'center',
+    height: 72,
+    marginRight: 24,
+    marginLeft: 24,
+    backgroundColor: '#bdbdbd'
+  },
+  settingsButtonText: {
+    textAlign: 'center',
+    fontSize: 24,
+    color: '#fefefe'
   }
 });

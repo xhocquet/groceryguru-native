@@ -17,7 +17,7 @@ export default class ReceiptList extends React.Component {
 
     this.state = {
       data: [],
-      timeStamp: 1508021630331
+      timeStamp: null
     };
   }
 
@@ -37,7 +37,7 @@ export default class ReceiptList extends React.Component {
         this.fetchReceiptsFromAPI();
       }
     } catch (error) {
-      // Error retrieving data
+      console.log(error);
     }
   }
 
@@ -85,18 +85,19 @@ export default class ReceiptList extends React.Component {
   );
 
   dateText(timeStamp) {
+    if (timeStamp == null) return '-';
     let date = new Date(timeStamp);
     return date.toDateString();
   }
 
   render() {
     return (
-      <View>
+      <View style={styles.receiptList}>
         <Text style={styles.dateText}>Last Update: {this.dateText(this.state.timeStamp)} </Text>
         <FlatList
+          style={styles.receiptList}
           data={this.state.data}
           renderItem={this.renderReceipt}
-          style={styles.receiptList}
         />
       </View>
     );
@@ -111,6 +112,9 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     borderBottomWidth: 1,
     borderColor: '#bbb'
+  },
+  receiptList: {
+    marginBottom: 100
   },
   receiptListItem: {
     height: 36,
