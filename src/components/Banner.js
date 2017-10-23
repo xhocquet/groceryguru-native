@@ -21,12 +21,12 @@ export default class Banner extends React.Component {
 
 const styles = StyleSheet.create({
   banner: {
-    backgroundColor: '#3273dc',
+    backgroundColor: '#18587A',
     padding: 24,
   },
   bannerText: {
     fontSize: 50,
-    color: '#F5FCFF',
+    color: '#ecf0f1',
     fontWeight: 'bold',
   }
 });

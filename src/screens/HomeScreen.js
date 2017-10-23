@@ -44,7 +44,7 @@ export default class HomeScreen extends React.Component {
 const styles = StyleSheet.create({
   screen: {
     flexDirection: 'column',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: '#ecf0f1',
   },
   uploadButton: {
     backgroundColor: '#00d1b2',
@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 36,
     fontWeight: 'bold',
-    color: 'white'
+    color: '#ecf0f1'
   },
   settingsButton: {
     marginTop: 48,
@@ -72,6 +72,6 @@ const styles = StyleSheet.create({
   settingsButtonText: {
     textAlign: 'center',
     fontSize: 24,
-    color: '#fefefe'
+    color: '#ecf0f1'
   }
 });

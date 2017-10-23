@@ -9,7 +9,8 @@ import {
   StyleSheet
 } from 'react-native';
 
-import { ApiEndpoints } from '../../App'
+import { ApiEndpoints } from '../../App';
+import ReceiptListSyncBar from './ReceiptListSyncBar';
 
 export default class ReceiptList extends React.Component {
   constructor(props) {
@@ -42,7 +43,6 @@ export default class ReceiptList extends React.Component {
   }
 
   async fetchReceiptsFromAPI() {
-    console.log('fetching from endpoint');
     fetch(ApiEndpoints.receiptList, {
       headers: {
         'Accept': 'application/json',
@@ -84,16 +84,11 @@ export default class ReceiptList extends React.Component {
     </View>
   );
 
-  dateText(timeStamp) {
-    if (timeStamp == null) return '-';
-    let date = new Date(timeStamp);
-    return date.toDateString();
-  }
 
   render() {
     return (
       <View style={styles.receiptList}>
-        <Text style={styles.dateText}>Last Update: {this.dateText(this.state.timeStamp)} </Text>
+        <ReceiptListSyncBar date={this.state.timeStamp} fetchReceipts={this.fetchReceiptsFromAPI.bind(this)} />
         <FlatList
           style={styles.receiptList}
           data={this.state.data}
@@ -105,14 +100,6 @@ export default class ReceiptList extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  dateText: {
-    height: 48,
-    fontWeight: 'bold',
-    padding: 12,
-    textAlign: 'center',
-    borderBottomWidth: 1,
-    borderColor: '#bbb'
-  },
   receiptList: {
     marginBottom: 100
   },

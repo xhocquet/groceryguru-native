@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
   screen: {
     flex: 1,
     flexDirection: 'column',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: '#ecf0f1',
   },
   statsContainer: {
     flex: 1,
@@ -135,16 +135,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   'worst-transactions': {
-    backgroundColor: '#ff3860'
+    backgroundColor: '#D96459'
   },
   'improvable-transactions': {
-    backgroundColor: '#ffdd57'
+    backgroundColor: '#F2AE72'
   },
   'best-transactions': {
-    backgroundColor: '#23d160'
+    backgroundColor: '#588C73'
   },
   statsLabelWrapper: {
-    backgroundColor: '#fcf5ff',
+    backgroundColor: '#ecf0f1',
     margin: 24,
     padding: 8
   },

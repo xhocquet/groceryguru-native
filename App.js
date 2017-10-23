@@ -22,7 +22,7 @@ export const GroceryGuruApp = TabNavigator({
       fontSize: 12,
     },
     style: {
-      backgroundColor: '#3273dc',
+      backgroundColor: '#18587A',
     },
     indicatorStyle: {
       backgroundColor: '#00d1b2'
