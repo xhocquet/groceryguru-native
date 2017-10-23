@@ -7,6 +7,8 @@ import {
   View
 } from 'react-native';
 
+import { GroceryGuruBlue } from '../styles/Colors';
+
 export default class Banner extends React.Component {
   render() {
     return (
@@ -21,7 +23,7 @@ export default class Banner extends React.Component {
 
 const styles = StyleSheet.create({
   banner: {
-    backgroundColor: '#18587A',
+    backgroundColor: GroceryGuruBlue,
     padding: 24,
   },
   bannerText: {

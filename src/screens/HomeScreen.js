@@ -7,7 +7,11 @@ import {
   View
 } from 'react-native';
 
+import Icon from 'react-native-vector-icons/MaterialIcons';
+
 import Banner from '../components/Banner'
+
+import { GroceryGuruPrimary } from '../styles/Colors'
 
 let onPressUpload = function() {
   // Initiate camera upload
@@ -35,6 +39,7 @@ export default class HomeScreen extends React.Component {
           <Text style={styles.settingsButtonText} >
             Settings
           </Text>
+          <Icon name='settings' style={styles.settingsIcon} />
         </View>
       </View>
     );
@@ -43,35 +48,41 @@ export default class HomeScreen extends React.Component {
 
 const styles = StyleSheet.create({
   screen: {
-    flexDirection: 'column',
-    backgroundColor: '#ecf0f1',
+    flex: 1,
   },
   uploadButton: {
-    backgroundColor: '#00d1b2',
-    padding: 24,
-    marginTop: 96,
+    backgroundColor: GroceryGuruPrimary,
+    height: 200,
+    justifyContent: 'center',
     marginLeft: 24,
     marginRight: 24,
-    height: 200,
-    justifyContent: 'center'
+    marginTop: 96,
+    padding: 24,
   },
   uploadButtonText: {
-    textAlign: 'center',
+    color: '#ecf0f1',
     fontSize: 36,
     fontWeight: 'bold',
-    color: '#ecf0f1'
+    textAlign: 'center',
   },
   settingsButton: {
-    marginTop: 48,
-    justifyContent: 'center',
+    backgroundColor: GroceryGuruPrimary,
+    flexDirection: 'row',
     height: 72,
-    marginRight: 24,
+    alignItems: 'center',
     marginLeft: 24,
-    backgroundColor: '#bdbdbd'
+    marginRight: 24,
+    marginTop: 48,
   },
   settingsButtonText: {
-    textAlign: 'center',
+    color: '#ecf0f1',
     fontSize: 24,
-    color: '#ecf0f1'
+    flex: 1,
+    textAlign: 'center',
+  },
+  settingsIcon: {
+    flex: 0.1,
+    color: '#ecf0f1',
+    fontSize: 24,
   }
 });

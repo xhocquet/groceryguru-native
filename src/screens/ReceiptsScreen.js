@@ -17,7 +17,7 @@ export default class ReceiptsScreen extends React.Component {
 
   render() {
     return (
-      <View style={styles.screen}>
+      <View style={styles.receiptsScreen}>
         <Banner />
         <ReceiptList />
       </View>
@@ -26,8 +26,7 @@ export default class ReceiptsScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  screen: {
-    flexDirection: 'column',
-    backgroundColor: '#F5FCFF',
-  },
+  receiptsScreen: {
+    flex: 1,
+  }
 });

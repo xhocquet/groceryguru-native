@@ -8,6 +8,7 @@ import {
   View
 } from 'react-native';
 
+import { GroceryGuruRed, GroceryGuruYellow, GroceryGuruGreen } from '../styles/Colors';
 import { ApiEndpoints } from '../../App'
 import Banner from '../components/Banner'
 
@@ -34,7 +35,7 @@ export default class StatsScreen extends React.Component {
       const value = await AsyncStorage.getItem('@GroceryGuru:lastDataScreenState');
       if (value !== null){
         console.log('data found!')
-        console.log(value)
+        // console.log(value)
         this.setState(JSON.parse(value));
       } else {
         console.log('data not found!')
@@ -104,7 +105,7 @@ export default class StatsScreen extends React.Component {
 
   render() {
     return (
-      <View style={styles.screen}>
+      <View style={styles.statsScreen}>
         <Banner />
         <View
           style={styles.statsContainer} >
@@ -118,10 +119,8 @@ export default class StatsScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  screen: {
+  statsScreen: {
     flex: 1,
-    flexDirection: 'column',
-    backgroundColor: '#ecf0f1',
   },
   statsContainer: {
     flex: 1,
@@ -129,19 +128,19 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around'
   },
   statsBox: {
-    height: '25%',
+    height: '20%',
     marginLeft: 24,
     marginRight: 24,
     justifyContent: 'center'
   },
   'worst-transactions': {
-    backgroundColor: '#D96459'
+    backgroundColor: GroceryGuruRed
   },
   'improvable-transactions': {
-    backgroundColor: '#F2AE72'
+    backgroundColor: GroceryGuruYellow
   },
   'best-transactions': {
-    backgroundColor: '#588C73'
+    backgroundColor: GroceryGuruGreen
   },
   statsLabelWrapper: {
     backgroundColor: '#ecf0f1',

@@ -9,6 +9,7 @@ import {
   StyleSheet
 } from 'react-native';
 
+import { GroceryGuruRed, GroceryGuruGreen, GroceryGuruPrimary } from '../styles/Colors';
 import { ApiEndpoints } from '../../App';
 import ReceiptListSyncBar from './ReceiptListSyncBar';
 
@@ -31,7 +32,7 @@ export default class ReceiptList extends React.Component {
       const value = await AsyncStorage.getItem('@GroceryGuru:lastReceiptListState');
       if (value !== null){
         console.log('data found!')
-        console.log(value)
+        // console.log(value)
         this.setState(JSON.parse(value));
       } else {
         console.log('data not found!')
@@ -79,15 +80,14 @@ export default class ReceiptList extends React.Component {
         <Text>{item.store || "Unknown"}</Text>
       </View>
       <View style={styles.receiptListItemDate}>
-        <Text>{item.date || "Unknown"}</Text>
+        <Text style={styles.receiptListItemDateText}>{item.date || "Unknown"}</Text>
       </View>
     </View>
   );
 
-
   render() {
     return (
-      <View style={styles.receiptList}>
+      <View style={styles.receiptListContainer}>
         <ReceiptListSyncBar date={this.state.timeStamp} fetchReceipts={this.fetchReceiptsFromAPI.bind(this)} />
         <FlatList
           style={styles.receiptList}
@@ -100,26 +100,29 @@ export default class ReceiptList extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  receiptList: {
-    marginBottom: 100
+  receiptListContainer: {
+    flex: 1
   },
   receiptListItem: {
     height: 36,
     padding: 8,
     flexDirection: 'row',
     borderBottomWidth: 1,
-    borderColor: '#ddd'
+    borderColor: GroceryGuruPrimary
   },
   completed: {
-    backgroundColor: '#23d160'
+    backgroundColor: GroceryGuruGreen
   },
   incomplete: {
-    backgroundColor: '#ff3860'
+    backgroundColor: GroceryGuruRed
   },
   receiptListItemName: {
-    flex: 0.7
+    flex: 0.8
   },
   receiptListItemDate: {
-    flex: 0.3
+    flex: 0.2
   },
+  receiptListItemDateText: {
+    textAlign: 'right'
+  }
 });

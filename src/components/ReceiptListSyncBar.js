@@ -9,6 +9,8 @@ import {
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
+import { GroceryGuruPrimary } from '../styles/Colors';
+
 export default class ReceiptListSyncBar extends React.Component {
 
   dateText(timeStamp) {
@@ -31,7 +33,8 @@ const styles = StyleSheet.create({
   syncBar: {
     flexDirection: 'row',
     borderBottomWidth: 1,
-    borderColor: '#bbb',
+    borderTopWidth: 1,
+    borderColor: GroceryGuruPrimary,
     height: 48,
   },
   dateText: {
@@ -44,6 +47,7 @@ const styles = StyleSheet.create({
     paddingLeft: 8,
     flex: 0.1,
     fontSize: 24,
-    lineHeight: 36
+    lineHeight: 36,
+    color: GroceryGuruPrimary
   }
 });
