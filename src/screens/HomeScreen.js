@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, TextInput } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import Banner from '../components/Banner';
-import { CurrentUser } from '../../App';
+import { CurrentUser, ApiEndpoints } from '../../App';
 import { GroceryGuruPrimary } from '../styles/Colors';
 
 let onPressUpload = function() {
@@ -16,13 +16,49 @@ export default class HomeScreen extends React.Component {
     super(props);
 
     this.state = {
-      loginEmail: '',
-      loginPass: ''
+      loginInputEmail: '',
+      loginInputPassword: '',
+      userEmail: '',
+      userToken: ''
     }
   }
 
   static navigationOptions = {
     tabBarLabel: 'Home'
+  }
+
+  selectPasswordInput() {
+    this._passwordInput.focus();
+  }
+
+  async submitLogin() {
+    data = {
+      user_login: {
+        email: this.state.loginInputEmail,
+        password: this.state.loginInputPassword
+      }
+    }
+
+    fetch(ApiEndpoints.userSession, {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'X-User-Email': 'xhocquet@gmail.com',
+        'X-User-Token': 'MVxPS4xcUdZkNT88aFxX'
+      },
+      method: 'POST',
+      body: JSON.stringify(data)
+    })
+    .then(res => res.json())
+    .then(res => {
+      this.setState({
+        userEmail: res.email,
+        userToken: res.auth_token
+      });
+    })
+    .catch(function(response) {
+      console.error(response);
+    })
   }
 
   render() {
@@ -36,18 +72,23 @@ export default class HomeScreen extends React.Component {
               Login
             </Text>
             <TextInput
-              style={[styles.loginInput, styles.emailInput]}
-              onChangeText={(text) => this.setState({loginEmail: text})}
-              value={this.state.loginEmail}
-              autoFocus={true}
+              style={styles.loginInput}
+              onChangeText={(text) => this.setState({loginInputEmail: text})}
+              value={this.state.loginInputEmail}
               keyboardType='email-address'
               selectionColor={GroceryGuruPrimary}
+              placeholder="Email"
+              returnKeyType='next'
+              onSubmitEditing={this.selectPasswordInput.bind(this)}
             />
             <TextInput
-              style={[styles.loginInput, styles.passwordInput]}
-              onChangeText={(text) => this.setState({loginPass: text})}
+              style={styles.loginInput}
+              onChangeText={(text) => this.setState({loginInputPassword: text})}
               secureTextEntry={true}
               selectionColor={GroceryGuruPrimary}
+              placeholder="Password"
+              ref={(c) => this._passwordInput = c}
+              onSubmitEditing={this.submitLogin.bind(this)}
             />
           </View>
         </View>
@@ -122,7 +163,10 @@ const styles = StyleSheet.create({
   loginHeader: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: 'black',
+    color: GroceryGuruPrimary,
     textAlign: 'center'
+  },
+  loginInput: {
+    marginTop: 24
   }
 });

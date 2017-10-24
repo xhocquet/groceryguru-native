@@ -27,20 +27,16 @@ export default class StatsScreen extends React.Component {
     try {
       const value = await AsyncStorage.getItem('@GroceryGuru:lastDataScreenState');
       if (value !== null){
-        console.log('data found!')
-        // console.log(value)
         this.setState(JSON.parse(value));
       } else {
-        console.log('data not found!')
         this.fetchStatsFromAPI();
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }
 
   async fetchStatsFromAPI() {
-    console.log('fetching from endpoint');
     fetch(ApiEndpoints.statsIndex, {
       headers: {
         'Accept': 'application/json',
@@ -62,17 +58,15 @@ export default class StatsScreen extends React.Component {
       this.saveCurrentState();
     })
     .catch(function(response) {
-      console.log(response);
+      console.error(response);
     })
   }
 
   async saveCurrentState() {
     try {
-      console.log(this.state)
-      console.log('saving data!');
       AsyncStorage.setItem('@GroceryGuru:lastDataScreenState', JSON.stringify(this.state));
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }
 
