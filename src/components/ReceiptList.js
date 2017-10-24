@@ -9,7 +9,7 @@ import {
   StyleSheet
 } from 'react-native';
 
-import { GroceryGuruRed, GroceryGuruGreen, GroceryGuruPrimary } from '../styles/Colors';
+import { GroceryGuruRed, GroceryGuruGreen, GroceryGuruPrimary, GroceryGuruYellow, GroceryGuruFadedYellow } from '../styles/Colors';
 import { ApiEndpoints } from '../../App';
 import ReceiptListSyncBar from './ReceiptListSyncBar';
 
@@ -85,10 +85,24 @@ export default class ReceiptList extends React.Component {
     </View>
   );
 
+  emptyStatsNotification() {
+    return(
+      <View style={styles.emptyReceiptsContainer}>
+        <Text style={styles.emptyReceiptsContainerText}>
+          You have no receipts. Please add a receipt and refresh.
+        </Text>
+      </View>
+    )
+  }
+
   render() {
     return (
       <View style={styles.receiptListContainer}>
         <ReceiptListSyncBar date={this.state.timeStamp} fetchReceipts={this.fetchReceiptsFromAPI.bind(this)} />
+        {
+          this.state.data.length === 0 &&
+          this.emptyStatsNotification()
+        }
         <FlatList
           style={styles.receiptList}
           data={this.state.data}
@@ -102,6 +116,16 @@ export default class ReceiptList extends React.Component {
 const styles = StyleSheet.create({
   receiptListContainer: {
     flex: 1
+  },
+  emptyReceiptsContainer: {
+    borderColor: GroceryGuruYellow,
+    borderWidth: 1,
+    backgroundColor: GroceryGuruFadedYellow,
+    padding: 20,
+    margin: 12
+  },
+  emptyReceiptsContainerText: {
+    textAlign: 'center'
   },
   receiptListItem: {
     height: 36,

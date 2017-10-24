@@ -1,16 +1,9 @@
 import React, { Component } from 'react';
+import { AsyncStorage, StyleSheet, Text, View } from 'react-native';
 
-import {
-  Platform,
-  AsyncStorage,
-  StyleSheet,
-  Text,
-  View
-} from 'react-native';
-
-import { GroceryGuruRed, GroceryGuruYellow, GroceryGuruGreen } from '../styles/Colors';
-import { ApiEndpoints } from '../../App'
-import Banner from '../components/Banner'
+import { GroceryGuruRed, GroceryGuruYellow, GroceryGuruGreen, GroceryGuruFadedYellow } from '../styles/Colors';
+import { ApiEndpoints } from '../../App';
+import Banner from '../components/Banner';
 
 export default class StatsScreen extends React.Component {
   constructor(props) {
@@ -58,6 +51,10 @@ export default class StatsScreen extends React.Component {
     })
     .then(res => res.json())
     .then(res => {
+      if (res.error) {
+        console.log(res.error);
+        return;
+      }
       this.setState({
         data: res,
         timeStamp: Math.floor(Date.now())
@@ -104,23 +101,47 @@ export default class StatsScreen extends React.Component {
   }
 
   render() {
-    return (
-      <View style={styles.statsScreen}>
-        <Banner />
-        <View
-          style={styles.statsContainer} >
-          {this.renderStatsBox('worst-transactions')}
-          {this.renderStatsBox('improvable-transactions')}
-          {this.renderStatsBox('best-transactions')}
+    if (this.state.data.length === 0) {
+      return (
+        <View style={styles.statsScreen}>
+          <Banner />
+          <View style={styles.emptyStatsContainer}>
+            <Text style={styles.emptyStatsContainerText}>
+              You do not have stats to display.
+              In order to create suggestions, you must have at least one item from two different stores.
+            </Text>
+          </View>
         </View>
-      </View>
-    );
+      );
+    } else {
+      return (
+        <View style={styles.statsScreen}>
+          <Banner />
+          <View
+            style={styles.statsContainer} >
+            {this.renderStatsBox('worst-transactions')}
+            {this.renderStatsBox('improvable-transactions')}
+            {this.renderStatsBox('best-transactions')}
+          </View>
+        </View>
+      );
+    }
   }
 }
 
 const styles = StyleSheet.create({
   statsScreen: {
     flex: 1,
+  },
+  emptyStatsContainer: {
+    borderColor: GroceryGuruYellow,
+    borderWidth: 1,
+    backgroundColor: GroceryGuruFadedYellow,
+    padding: 20,
+    margin: 12
+  },
+  emptyStatsContainerText: {
+    textAlign: 'center'
   },
   statsContainer: {
     flex: 1,

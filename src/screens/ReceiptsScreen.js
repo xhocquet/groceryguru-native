@@ -1,14 +1,8 @@
 import React, { Component } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
 
-import {
-  Platform,
-  StyleSheet,
-  Text,
-  View
-} from 'react-native';
-
-import Banner from '../components/Banner'
-import ReceiptList from '../components/ReceiptList'
+import Banner from '../components/Banner';
+import ReceiptList from '../components/ReceiptList';
 
 export default class ReceiptsScreen extends React.Component {
   static navigationOptions = {

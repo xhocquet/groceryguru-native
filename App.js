@@ -8,12 +8,19 @@ import HomeScreen from './src/screens/HomeScreen';
 import StatsScreen from './src/screens/StatsScreen';
 import ReceiptsScreen from './src/screens/ReceiptsScreen';
 
-import { GroceryGuruBlue, GroceryGuruPrimary } from './src/styles/Colors'
+import { GroceryGuruBlue, GroceryGuruPrimary } from './src/styles/Colors';
+
+export let CurrentUser = {
+  email: '',
+  token: ''
+}
 
 // Needs to be obfuscated
 export const ApiEndpoints = {
-  receiptList: "http://192.168.1.143:3000/receipts.json",
-  statsIndex: "http://192.168.1.143:3000/stats.json"
+  receiptList: "http://192.168.1.141:3000/receipts.json",
+  statsIndex: "http://192.168.1.141:3000/stats.json",
+  userRegistration: "http://192.168.1.141:3000/api/registrations.json",
+  userSession: "http://192.168.1.141:3000/api/sessions.json"
 }
 
 export const GroceryGuruApp = TabNavigator({
@@ -22,7 +29,6 @@ export const GroceryGuruApp = TabNavigator({
   Receipts: { screen: ReceiptsScreen }
 }, {
   tabBarPosition: 'bottom',
-  animationEnabled: true,
   tabBarOptions: {
     labelStyle: {
       fontSize: 12,
