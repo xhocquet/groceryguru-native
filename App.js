@@ -1,19 +1,14 @@
 import { React } from 'react';
-
 import { AppRegistry, Text, View, Button } from 'react-native';
-
 import { TabNavigator } from 'react-navigation';
+
+import AppReducer from './src/reducers/App'
 
 import HomeScreen from './src/screens/HomeScreen';
 import StatsScreen from './src/screens/StatsScreen';
 import ReceiptsScreen from './src/screens/ReceiptsScreen';
 
 import { GroceryGuruBlue, GroceryGuruPrimary } from './src/styles/Colors';
-
-export let CurrentUser = {
-  email: '',
-  token: ''
-}
 
 // Needs to be obfuscated
 export const ApiEndpoints = {
@@ -23,7 +18,7 @@ export const ApiEndpoints = {
   userSession: "http://192.168.1.141:3000/api/session"
 }
 
-export const GroceryGuruApp = TabNavigator({
+export const GroceryGuruNavigator = TabNavigator({
   Home: { screen: HomeScreen },
   Stats: { screen: StatsScreen },
   Receipts: { screen: ReceiptsScreen }

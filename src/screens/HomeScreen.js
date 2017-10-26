@@ -1,26 +1,26 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, TextInput } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Alert } from 'react-native';
+import { connect } from 'react-redux';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import Banner from '../components/Banner';
-import { CurrentUser, ApiEndpoints } from '../../App';
+import { ApiEndpoints } from '../../App';
 import { GroceryGuruPrimary } from '../styles/Colors';
+import * as actions from '../actions';
 
-let onPressUpload = function() {
-  // Initiate camera upload
-}
-
-export default class HomeScreen extends React.Component {
+export class HomeScreen extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
       loginInputEmail: '',
-      loginInputPassword: '',
-      userEmail: '',
-      userToken: ''
+      loginInputPassword: ''
     }
+  }
+
+  onPressUpload() {
+    return;
   }
 
   static navigationOptions = {
@@ -51,10 +51,16 @@ export default class HomeScreen extends React.Component {
     })
     .then(res => res.json())
     .then(res => {
-      this.setState({
-        userEmail: res.email,
-        userToken: res.auth_token
-      });
+      if (res.success) {
+        this.props.userLoggedIn(res);
+      } else {
+        Alert.alert(
+          'Could not log in',
+          'Your credentials were incorrect.',
+          [{text: 'OK', onPress: () => true }],
+          { cancelable: false }
+        )
+      }
     })
     .catch(function(response) {
       console.error(response);
@@ -62,7 +68,7 @@ export default class HomeScreen extends React.Component {
   }
 
   render() {
-    if (CurrentUser.email.length === 0) {
+    if (this.props.currentUser == undefined) {
       this.props.navigation.navigate('DrawerOpen');
       return (
         <View style={styles.screen}>
@@ -99,7 +105,7 @@ export default class HomeScreen extends React.Component {
         <View style={styles.screen}>
           <Banner />
           <View
-            onPress={onPressUpload}
+            onPress={this.onPressUpload}
             style={styles.uploadButton} >
             <Text style={styles.uploadButtonText}>
               Upload receipt
@@ -170,3 +176,13 @@ const styles = StyleSheet.create({
     marginTop: 24
   }
 });
+
+export default connect(
+  state => ({
+    currentUser: state.currentUser
+  }),
+  dispatch => ({
+    userLoggedIn: currentUser => dispatch(actions.userLoggedIn(currentUser)),
+    userLoggedOut: () => dispatch(actions.userLoggedOut())
+  })
+)(HomeScreen)
