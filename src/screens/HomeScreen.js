@@ -32,7 +32,7 @@ export class HomeScreen extends React.Component {
   }
 
   async submitLogin() {
-    data = {
+    loginData = {
       user_login: {
         email: this.state.loginInputEmail,
         password: this.state.loginInputPassword
@@ -42,12 +42,10 @@ export class HomeScreen extends React.Component {
     fetch(ApiEndpoints.userSession, {
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'X-User-Email': 'xhocquet@gmail.com',
-        'X-User-Token': 'MVxPS4xcUdZkNT88aFxX'
+        'Content-Type': 'application/json'
       },
       method: 'POST',
-      body: JSON.stringify(data)
+      body: JSON.stringify(loginData)
     })
     .then(res => res.json())
     .then(res => {
@@ -55,21 +53,25 @@ export class HomeScreen extends React.Component {
         this.props.userLoggedIn(res);
       } else {
         Alert.alert(
-          'Could not log in',
-          'Your credentials were incorrect.',
+          res.message,
+          '',
           [{text: 'OK', onPress: () => true }],
           { cancelable: false }
         )
       }
     })
     .catch(function(response) {
-      console.error(response);
+      Alert.alert(
+        response.message,
+        '',
+        [{text: 'OK', onPress: () => true }],
+        { cancelable: false }
+      )
     })
   }
 
   render() {
     if (this.props.currentUser == undefined) {
-      this.props.navigation.navigate('DrawerOpen');
       return (
         <View style={styles.screen}>
         <Banner />
@@ -100,7 +102,6 @@ export class HomeScreen extends React.Component {
         </View>
       );
     } else {
-      this.props.navigation.navigate('DrawerClose');
       return (
         <View style={styles.screen}>
           <Banner />

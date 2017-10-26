@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
-import { AsyncStorage, StyleSheet, Text, View } from 'react-native';
+import { AsyncStorage, StyleSheet, Text, View, Alert } from 'react-native';
+import { connect } from 'react-redux';
 
 import { GroceryGuruRed, GroceryGuruYellow, GroceryGuruGreen, GroceryGuruFadedYellow } from '../styles/Colors';
 import { ApiEndpoints } from '../../App';
 import Banner from '../components/Banner';
+import StatsSyncBar from '../components/StatsSyncBar';
 
-export default class StatsScreen extends React.Component {
+export class StatsScreen extends React.Component {
   constructor(props) {
     super(props);
 
@@ -20,7 +22,9 @@ export default class StatsScreen extends React.Component {
   }
 
   componentDidMount() {
-    this.loadStatsData();
+    if (this.props.currentUser != undefined) {
+      this.loadStatsData();
+    }
   }
 
   async loadStatsData() {
@@ -36,13 +40,23 @@ export default class StatsScreen extends React.Component {
     }
   }
 
-  async fetchStatsFromAPI() {
+  async fetchStatsData() {
+    if (this.props.currentUser === undefined) {
+      Alert.alert(
+        'Please log in',
+        'We cannot sync your data without logging in.',
+        [{text: 'OK', onPress: () => true }],
+        { cancelable: false }
+      )
+      return;
+    }
+
     fetch(ApiEndpoints.statsIndex, {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'X-User-Email': 'xhocquet@gmail.com',
-        'X-User-Token': 'MVxPS4xcUdZkNT88aFxX'
+        'X-User-Email': this.props.currentUser.email,
+        'X-User-Token': this.props.currentUser.auth_token
       }
     })
     .then(res => res.json())
@@ -58,7 +72,12 @@ export default class StatsScreen extends React.Component {
       this.saveCurrentState();
     })
     .catch(function(response) {
-      console.error(response);
+      Alert.alert(
+        response.message,
+        '',
+        [{text: 'OK', onPress: () => true }],
+        { cancelable: false }
+      )
     })
   }
 
@@ -99,6 +118,7 @@ export default class StatsScreen extends React.Component {
       return (
         <View style={styles.statsScreen}>
           <Banner />
+          <StatsSyncBar  fetchStatsData={this.fetchStatsData.bind(this)} date={this.state.timestamp} />
           <View style={styles.emptyStatsContainer}>
             <Text style={styles.emptyStatsContainerText}>
               You do not have stats to display.
@@ -111,6 +131,7 @@ export default class StatsScreen extends React.Component {
       return (
         <View style={styles.statsScreen}>
           <Banner />
+          <StatsSyncBar fetchStatsData={this.fetchStatsData.bind(this)} date={this.state.timestamp} />
           <View
             style={styles.statsContainer} >
             {this.renderStatsBox('worst-transactions')}
@@ -122,6 +143,17 @@ export default class StatsScreen extends React.Component {
     }
   }
 }
+
+export default connect(
+  state => ({
+    currentUser: state.currentUser,
+    statsData: state.data
+  }),
+  dispatch => ({
+    userLoggedIn: currentUser => dispatch(actions.userLoggedIn(currentUser)),
+    userLoggedOut: () => dispatch(actions.userLoggedOut())
+  })
+)(StatsScreen)
 
 const styles = StyleSheet.create({
   statsScreen: {

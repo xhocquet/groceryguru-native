@@ -1,12 +1,5 @@
 import React, { Component } from 'react';
-import {
-  Platform,
-  AsyncStorage,
-  Text,
-  View,
-  FlatList,
-  StyleSheet
-} from 'react-native';
+import { Platform, AsyncStorage, Text, View, FlatList, StyleSheet, Alert } from 'react-native';
 
 import { GroceryGuruRed, GroceryGuruGreen, GroceryGuruPrimary, GroceryGuruYellow, GroceryGuruFadedYellow } from '../styles/Colors';
 import { ApiEndpoints } from '../../App';
@@ -23,32 +16,46 @@ export default class ReceiptList extends React.Component {
   }
 
   componentDidMount() {
-    this.loadReceiptData();
+    if (this.props.currentUser != undefined) {
+      this.loadReceiptData();
+    }
   }
 
   async loadReceiptData() {
     try {
       const value = await AsyncStorage.getItem('@GroceryGuru:lastReceiptListState');
       if (value !== null){
-        console.log('data found!')
-        // console.log(value)
         this.setState(JSON.parse(value));
       } else {
-        console.log('data not found!')
         this.fetchReceiptsFromAPI();
       }
     } catch (error) {
-      console.log(error);
+      Alert.alert(
+        error.message,
+        '',
+        [{text: 'OK', onPress: () => true }],
+        { cancelable: false }
+      )
     }
   }
 
   async fetchReceiptsFromAPI() {
+    if (this.props.currentUser === undefined) {
+      Alert.alert(
+        'Please log in',
+        'We cannot sync your data without logging in.',
+        [{text: 'OK', onPress: () => true }],
+        { cancelable: false }
+      )
+      return;
+    }
+
     fetch(ApiEndpoints.receiptList, {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'X-User-Email': 'xhocquet@gmail.com',
-        'X-User-Token': 'MVxPS4xcUdZkNT88aFxX'
+        'X-User-Email': currentUser.email,
+        'X-User-Token': currentUser.auth_token
       }
     })
     .then(res => res.json())
@@ -59,14 +66,18 @@ export default class ReceiptList extends React.Component {
       });
       this.saveCurrentState();
     })
-    .catch(function(response) {
-      console.log(response);
+    .catch( response => {
+      Alert.alert(
+        response.message,
+        '',
+        [{text: 'OK', onPress: () => true }],
+        { cancelable: false }
+      )
     })
   }
 
   async saveCurrentState() {
     try {
-      console.log('saving data!');
       AsyncStorage.setItem('@GroceryGuru:lastReceiptListState', JSON.stringify(this.state));
     } catch (error) {
       console.log(error);

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-
 import {
   Platform,
   StyleSheet,
@@ -11,8 +10,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import { GroceryGuruPrimary } from '../styles/Colors';
 
-export default class ReceiptListSyncBar extends React.Component {
-
+export default class StatsSyncBar extends React.Component {
   dateText(timeStamp) {
     if (timeStamp == null) return '-';
     let date = new Date(timeStamp);
@@ -20,7 +18,7 @@ export default class ReceiptListSyncBar extends React.Component {
   }
 
   onIconClicked() {
-    this.props.fetchReceipts();
+    this.props.fetchStatsData();
   }
 
   render() {
