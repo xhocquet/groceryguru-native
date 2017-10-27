@@ -23,6 +23,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 const store = createStore(reducer, applyMiddleware(...middleware));
 
+// Triggers storage saves on reducer triggers
 const load = storage.createLoader(engine);
 load(store);
 

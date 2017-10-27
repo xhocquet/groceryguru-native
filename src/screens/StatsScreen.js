@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { AsyncStorage, Text, View, Alert } from 'react-native';
+import { Text, View, Alert } from 'react-native';
 import { connect } from 'react-redux';
 
 import * as API from '../api/Endpoints';
+import * as actions from '../actions';
 import Banner from '../components/Banner';
 import StatsSyncBar from '../components/StatsSyncBar';
 import StyleSheet from '../styles/StatsScreen';
@@ -12,32 +13,12 @@ export class StatsScreen extends React.Component {
     super(props);
 
     this.state = {
-      data: [],
-      timeStamp: null
+      data: []
     };
   }
 
   static navigationOptions = {
     tabBarLabel: 'Stats'
-  }
-
-  componentDidMount() {
-    if (this.props.currentUser != undefined) {
-      this.loadStatsData();
-    }
-  }
-
-  async loadStatsData() {
-    try {
-      const value = await AsyncStorage.getItem('@GroceryGuru:lastDataScreenState');
-      if (value !== null){
-        this.setState(JSON.parse(value));
-      } else {
-        this.fetchStatsFromAPI();
-      }
-    } catch (error) {
-      console.error(error);
-    }
   }
 
   async fetchStatsData() {
@@ -65,11 +46,10 @@ export class StatsScreen extends React.Component {
         console.log(res.error);
         return;
       }
-      this.setState({
+      this.props.statsDataLoaded({
         data: res,
         timeStamp: Math.floor(Date.now())
-      });
-      this.saveCurrentState();
+      })
     })
     .catch(function(response) {
       Alert.alert(
@@ -79,14 +59,6 @@ export class StatsScreen extends React.Component {
         { cancelable: false }
       )
     })
-  }
-
-  async saveCurrentState() {
-    try {
-      AsyncStorage.setItem('@GroceryGuru:lastDataScreenState', JSON.stringify(this.state));
-    } catch (error) {
-      console.error(error);
-    }
   }
 
   statsLabelString(dataString) {
@@ -150,7 +122,6 @@ export default connect(
     statsData: state.data
   }),
   dispatch => ({
-    userLoggedIn: currentUser => dispatch(actions.userLoggedIn(currentUser)),
-    userLoggedOut: () => dispatch(actions.userLoggedOut())
+    statsDataLoaded: statsData => dispatch(actions.statsDataLoaded(statsData)),
   })
 )(StatsScreen)

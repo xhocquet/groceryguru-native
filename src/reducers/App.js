@@ -10,9 +10,11 @@ const appReducer = (state = {}, action) => {
     case Constants.USER_LOGGED_OUT:
       return {
         ...state,
-        currentUser: null
+        currentUser: null,
+        receiptData: null,
+        statsData: null
       }
-    case Constants.RECEIPTS_LOADED:
+    case Constants.RECEIPTS_DATA_LOADED:
       return {
         ...state,
         receiptData: action.receiptData
