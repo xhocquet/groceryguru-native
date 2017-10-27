@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { AsyncStorage, StyleSheet, Text, View, Alert } from 'react-native';
+import { AsyncStorage, Text, View, Alert } from 'react-native';
 import { connect } from 'react-redux';
 
-import { GroceryGuruRed, GroceryGuruYellow, GroceryGuruGreen, GroceryGuruFadedYellow } from '../styles/Colors';
 import * as API from '../api/Endpoints';
 import Banner from '../components/Banner';
 import StatsSyncBar from '../components/StatsSyncBar';
+import StyleSheet from '../styles/StatsScreen';
 
 export class StatsScreen extends React.Component {
   constructor(props) {
@@ -102,9 +102,9 @@ export class StatsScreen extends React.Component {
   renderStatsBox(dataString) {
     if (Object.keys(this.state.data).length > 0  && this.state.data[dataString].length > 0) {
       return (
-        <View style={[styles.statsBox, styles[dataString]]}>
-          <View style={styles.statsLabelWrapper}>
-            <Text style={styles.statsLabel}>{this.state.data[dataString].length} {this.statsLabelString(dataString)}</Text>
+        <View style={[StyleSheet.statsBox, styles[dataString]]}>
+          <View style={StyleSheet.statsLabelWrapper}>
+            <Text style={StyleSheet.statsLabel}>{this.state.data[dataString].length} {this.statsLabelString(dataString)}</Text>
           </View>
         </View>
       );
@@ -116,11 +116,11 @@ export class StatsScreen extends React.Component {
   render() {
     if (this.state.data.length === 0) {
       return (
-        <View style={styles.statsScreen}>
+        <View style={StyleSheet.statsScreen}>
           <Banner />
           <StatsSyncBar  fetchStatsData={this.fetchStatsData.bind(this)} date={this.state.timestamp} />
-          <View style={styles.emptyStatsContainer}>
-            <Text style={styles.emptyStatsContainerText}>
+          <View style={StyleSheet.emptyStatsContainer}>
+            <Text style={StyleSheet.emptyStatsContainerText}>
               You do not have stats to display.
               In order to create suggestions, you must have at least one item from two different stores.
             </Text>
@@ -129,11 +129,11 @@ export class StatsScreen extends React.Component {
       );
     } else {
       return (
-        <View style={styles.statsScreen}>
+        <View style={StyleSheet.statsScreen}>
           <Banner />
           <StatsSyncBar fetchStatsData={this.fetchStatsData.bind(this)} date={this.state.timestamp} />
           <View
-            style={styles.statsContainer} >
+            style={StyleSheet.statsContainer} >
             {this.renderStatsBox('worst-transactions')}
             {this.renderStatsBox('improvable-transactions')}
             {this.renderStatsBox('best-transactions')}
@@ -154,49 +154,3 @@ export default connect(
     userLoggedOut: () => dispatch(actions.userLoggedOut())
   })
 )(StatsScreen)
-
-const styles = StyleSheet.create({
-  statsScreen: {
-    flex: 1,
-  },
-  emptyStatsContainer: {
-    borderColor: GroceryGuruYellow,
-    borderWidth: 1,
-    backgroundColor: GroceryGuruFadedYellow,
-    padding: 20,
-    margin: 12
-  },
-  emptyStatsContainerText: {
-    textAlign: 'center'
-  },
-  statsContainer: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'space-around'
-  },
-  statsBox: {
-    height: '20%',
-    marginLeft: 24,
-    marginRight: 24,
-    justifyContent: 'center'
-  },
-  'worst-transactions': {
-    backgroundColor: GroceryGuruRed
-  },
-  'improvable-transactions': {
-    backgroundColor: GroceryGuruYellow
-  },
-  'best-transactions': {
-    backgroundColor: GroceryGuruGreen
-  },
-  statsLabelWrapper: {
-    backgroundColor: '#ecf0f1',
-    margin: 24,
-    padding: 8
-  },
-  statsLabel: {
-    textAlign: 'center',
-    fontSize: 20,
-    fontWeight: 'bold'
-  }
-});

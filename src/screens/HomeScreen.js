@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, TextInput, Alert } from 'react-native';
+import { Text, View, TextInput, Alert, TouchableOpacity  } from 'react-native';
 import { connect } from 'react-redux';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -8,6 +8,7 @@ import Banner from '../components/Banner';
 import * as API from '../api/Endpoints';
 import { GroceryGuruPrimary } from '../styles/Colors';
 import * as actions from '../actions';
+import StyleSheet from '../styles/HomeScreen';
 
 export class HomeScreen extends React.Component {
   constructor(props) {
@@ -21,6 +22,10 @@ export class HomeScreen extends React.Component {
 
   onPressUpload() {
     return;
+  }
+
+  userLoggedOut() {
+    this.props.userLoggedOut();
   }
 
   static navigationOptions = {
@@ -73,14 +78,14 @@ export class HomeScreen extends React.Component {
   render() {
     if (this.props.currentUser == undefined) {
       return (
-        <View style={styles.screen}>
+        <View style={StyleSheet.screen}>
         <Banner />
-          <View style={styles.loginContainer}>
-            <Text style={styles.loginHeader}>
+          <View style={StyleSheet.loginContainer}>
+            <Text style={StyleSheet.loginHeader}>
               Login
             </Text>
             <TextInput
-              style={styles.loginInput}
+              style={StyleSheet.loginInput}
               onChangeText={(text) => this.setState({loginInputEmail: text})}
               value={this.state.loginInputEmail}
               keyboardType='email-address'
@@ -90,7 +95,7 @@ export class HomeScreen extends React.Component {
               onSubmitEditing={this.selectPasswordInput.bind(this)}
             />
             <TextInput
-              style={styles.loginInput}
+              style={StyleSheet.loginInput}
               onChangeText={(text) => this.setState({loginInputPassword: text})}
               secureTextEntry={true}
               selectionColor={GroceryGuruPrimary}
@@ -103,80 +108,31 @@ export class HomeScreen extends React.Component {
       );
     } else {
       return (
-        <View style={styles.screen}>
+        <View style={StyleSheet.screen}>
           <Banner />
           <View
             onPress={this.onPressUpload}
-            style={styles.uploadButton} >
-            <Text style={styles.uploadButtonText}>
+            style={StyleSheet.uploadButton} >
+            <Text style={StyleSheet.uploadButtonText}>
               Upload receipt
             </Text>
           </View>
-          <View style={styles.settingsButton} >
-            <Text style={styles.settingsButtonText} >
+          <View style={StyleSheet.settingsButton} >
+            <Text style={StyleSheet.settingsButtonText} >
               Settings
             </Text>
-            <Icon name='settings' style={styles.settingsIcon} />
+            <Icon name='settings' style={StyleSheet.settingsIcon} />
           </View>
+          <TouchableOpacity  style={StyleSheet.logoutButton} onPress={this.userLoggedOut.bind(this)}>
+            <Text style={StyleSheet.logoutButtonText}>
+              Logout
+            </Text>
+          </TouchableOpacity >
         </View>
       );
     }
   }
 }
-
-const styles = StyleSheet.create({
-  screen: {
-    flex: 1
-  },
-  uploadButton: {
-    backgroundColor: GroceryGuruPrimary,
-    height: 200,
-    justifyContent: 'center',
-    marginLeft: 24,
-    marginRight: 24,
-    marginTop: 96,
-    padding: 24,
-  },
-  uploadButtonText: {
-    color: '#ecf0f1',
-    fontSize: 36,
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-  settingsButton: {
-    backgroundColor: GroceryGuruPrimary,
-    flexDirection: 'row',
-    height: 72,
-    alignItems: 'center',
-    marginLeft: 24,
-    marginRight: 24,
-    marginTop: 48,
-  },
-  settingsButtonText: {
-    color: '#ecf0f1',
-    fontSize: 24,
-    flex: 1,
-    textAlign: 'center',
-  },
-  settingsIcon: {
-    flex: 0.1,
-    color: '#ecf0f1',
-    fontSize: 24,
-  },
-  loginContainer: {
-    margin: 8,
-    padding: 8
-  },
-  loginHeader: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: GroceryGuruPrimary,
-    textAlign: 'center'
-  },
-  loginInput: {
-    marginTop: 24
-  }
-});
 
 export default connect(
   state => ({

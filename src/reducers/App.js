@@ -1,4 +1,3 @@
-import { combineReducers } from 'redux'
 import * as Constants from '../actions/Constants'
 
 const appReducer = (state = {}, action) => {
@@ -16,7 +15,12 @@ const appReducer = (state = {}, action) => {
     case Constants.RECEIPTS_LOADED:
       return {
         ...state,
-        receipts: action.receipts
+        receiptData: action.receiptData
+      }
+    case Constants.STATS_DATA_LOADED:
+      return {
+        ...state,
+        statsData: action.statsData
       }
     default:
       return state
