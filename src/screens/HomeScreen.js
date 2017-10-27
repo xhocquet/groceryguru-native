@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import Banner from '../components/Banner';
-import { ApiEndpoints } from '../../App';
+import * as API from '../api/Endpoints';
 import { GroceryGuruPrimary } from '../styles/Colors';
 import * as actions from '../actions';
 
@@ -39,7 +39,7 @@ export class HomeScreen extends React.Component {
       }
     }
 
-    fetch(ApiEndpoints.userSession, {
+    fetch(API.userSession, {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'

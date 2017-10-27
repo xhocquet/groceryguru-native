@@ -3,7 +3,7 @@ import { AsyncStorage, StyleSheet, Text, View, Alert } from 'react-native';
 import { connect } from 'react-redux';
 
 import { GroceryGuruRed, GroceryGuruYellow, GroceryGuruGreen, GroceryGuruFadedYellow } from '../styles/Colors';
-import { ApiEndpoints } from '../../App';
+import * as API from '../api/Endpoints';
 import Banner from '../components/Banner';
 import StatsSyncBar from '../components/StatsSyncBar';
 
@@ -51,7 +51,7 @@ export class StatsScreen extends React.Component {
       return;
     }
 
-    fetch(ApiEndpoints.statsIndex, {
+    fetch(API.statsIndex, {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',

@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { Platform, AsyncStorage, Text, View, FlatList, StyleSheet, Alert } from 'react-native';
+import { connect } from 'react-redux';
 
 import { GroceryGuruRed, GroceryGuruGreen, GroceryGuruPrimary, GroceryGuruYellow, GroceryGuruFadedYellow } from '../styles/Colors';
-import { ApiEndpoints } from '../../App';
+import * as API from '../api/Endpoints';
 import ReceiptListSyncBar from './ReceiptListSyncBar';
 
-export default class ReceiptList extends React.Component {
+export class ReceiptList extends React.Component {
   constructor(props) {
     super(props);
 
@@ -50,12 +51,12 @@ export default class ReceiptList extends React.Component {
       return;
     }
 
-    fetch(ApiEndpoints.receiptList, {
+    fetch(API.receiptList, {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'X-User-Email': currentUser.email,
-        'X-User-Token': currentUser.auth_token
+        'X-User-Email': this.props.currentUser.email,
+        'X-User-Token': this.props.currentUser.auth_token
       }
     })
     .then(res => res.json())
@@ -122,6 +123,17 @@ export default class ReceiptList extends React.Component {
     );
   }
 }
+
+export default connect(
+  state => ({
+    currentUser: state.currentUser,
+    receiptData: state.data
+  }),
+  dispatch => ({
+    userLoggedIn: currentUser => dispatch(actions.userLoggedIn(currentUser)),
+    userLoggedOut: () => dispatch(actions.userLoggedOut())
+  })
+)(ReceiptList)
 
 const styles = StyleSheet.create({
   receiptListContainer: {
