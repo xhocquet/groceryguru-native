@@ -21,7 +21,8 @@ export default styles = StyleSheet.create({
     padding: 8,
     flexDirection: 'row',
     borderBottomWidth: 1,
-    borderColor: GroceryGuruPrimary
+    borderColor: GroceryGuruPrimary,
+    elevation: 1,
   },
   completed: {
     backgroundColor: GroceryGuruGreen

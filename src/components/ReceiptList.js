@@ -33,7 +33,6 @@ export class ReceiptList extends React.Component {
     })
     .then(res => res.json())
     .then(res => {
-      debugger
       this.props.receiptsDataLoaded({
         data: res,
         timeStamp: Math.floor(Date.now())
@@ -71,7 +70,6 @@ export class ReceiptList extends React.Component {
   }
 
   render() {
-    debugger
     if (!this.props.receiptsData) {
       return (
         <View style={styles.receiptListContainer}>
