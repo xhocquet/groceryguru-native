@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { connect } from 'react-redux';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
@@ -30,10 +29,9 @@ export default class StatsSyncBar extends React.Component {
 const styles = StyleSheet.create({
   syncBar: {
     flexDirection: 'row',
-    borderBottomWidth: 1,
-    borderTopWidth: 1,
-    borderColor: GroceryGuruPrimary,
     height: 48,
+    elevation: 2,
+    backgroundColor: '#ededed'
   },
   dateText: {
     flex: 1,

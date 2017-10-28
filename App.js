@@ -8,7 +8,7 @@ import HomeScreen from './src/screens/HomeScreen';
 import StatsScreen from './src/screens/StatsScreen';
 import ReceiptsScreen from './src/screens/ReceiptsScreen';
 
-import { GroceryGuruBlue, GroceryGuruPrimary } from './src/styles/Colors';
+import { GroceryGuruBlue, GroceryGuruPrimary, GroceryGuruWhite } from './src/styles/Colors';
 
 export const GroceryGuruNavigator = TabNavigator({
   Home: { screen: HomeScreen },
@@ -19,6 +19,7 @@ export const GroceryGuruNavigator = TabNavigator({
   tabBarOptions: {
     labelStyle: {
       fontSize: 12,
+      color: GroceryGuruWhite
     },
     style: {
       backgroundColor: GroceryGuruBlue,

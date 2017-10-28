@@ -1,18 +1,11 @@
 import React, { Component } from 'react';
-
-import {
-  Platform,
-  StyleSheet,
-  Text,
-  View
-} from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import { GroceryGuruPrimary } from '../styles/Colors';
 
 export default class ReceiptListSyncBar extends React.Component {
-
   dateText(timeStamp) {
     if (timeStamp == null) return '-';
     let date = new Date(timeStamp);
@@ -36,10 +29,9 @@ export default class ReceiptListSyncBar extends React.Component {
 const styles = StyleSheet.create({
   syncBar: {
     flexDirection: 'row',
-    borderBottomWidth: 1,
-    borderTopWidth: 1,
-    borderColor: GroceryGuruPrimary,
     height: 48,
+    elevation: 2,
+    backgroundColor: '#ededed',
   },
   dateText: {
     flex: 1,

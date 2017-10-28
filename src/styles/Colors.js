@@ -4,3 +4,4 @@ export const GroceryGuruYellow =  '#F2AE72';
 export const GroceryGuruFadedYellow = '#fefaf6';
 export const GroceryGuruBlue =    '#18587A';
 export const GroceryGuruPrimary = '#567C65';
+export const GroceryGuruWhite = '#ecf0f1';

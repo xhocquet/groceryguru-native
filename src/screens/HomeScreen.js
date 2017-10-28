@@ -79,7 +79,7 @@ export class HomeScreen extends React.Component {
     if (this.props.currentUser == undefined) {
       return (
         <View style={StyleSheet.screen}>
-        <Banner />
+          <Banner />
           <View style={StyleSheet.loginContainer}>
             <Text style={StyleSheet.loginHeader}>
               Login
@@ -110,24 +110,13 @@ export class HomeScreen extends React.Component {
       return (
         <View style={StyleSheet.screen}>
           <Banner />
-          <View
-            onPress={this.onPressUpload}
-            style={StyleSheet.uploadButton} >
-            <Text style={StyleSheet.uploadButtonText}>
-              Upload receipt
-            </Text>
+          <View style={StyleSheet.content}>
+            <View onPress={this.onPressUpload} style={StyleSheet.uploadButton} >
+              <Text style={StyleSheet.uploadButtonText}>
+                Upload receipt
+              </Text>
+            </View>
           </View>
-          <View style={StyleSheet.settingsButton} >
-            <Text style={StyleSheet.settingsButtonText} >
-              Settings
-            </Text>
-            <Icon name='settings' style={StyleSheet.settingsIcon} />
-          </View>
-          <TouchableOpacity  style={StyleSheet.logoutButton} onPress={this.userLoggedOut.bind(this)}>
-            <Text style={StyleSheet.logoutButtonText}>
-              Logout
-            </Text>
-          </TouchableOpacity>
         </View>
       );
     }

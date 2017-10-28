@@ -72,7 +72,7 @@ export class StatsScreen extends React.Component {
     if (Object.keys(this.props.statsData).length === 0) return;
     if (this.props.statsData.data[dataString]) {
       return (
-        <View style={[StyleSheet.statsBox, styles[dataString]]}>
+        <View style={[StyleSheet.statsBox, StyleSheet[dataString]]}>
           <View style={StyleSheet.statsLabelWrapper}>
             <Text style={StyleSheet.statsLabel}>{this.props.statsData.data[dataString].length} {this.statsLabelString(dataString)}</Text>
           </View>
@@ -84,7 +84,7 @@ export class StatsScreen extends React.Component {
   }
 
   render() {
-    if (this.props.statsData === undefined) {
+    if (!this.props.statsData) {
       return (
         <View style={StyleSheet.statsScreen}>
           <Banner />

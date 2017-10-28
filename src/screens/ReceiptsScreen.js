@@ -3,6 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 
 import Banner from '../components/Banner';
 import ReceiptList from '../components/ReceiptList';
+import { GroceryGuruWhite } from '../styles/Colors';
 
 export default class ReceiptsScreen extends React.Component {
   static navigationOptions = {
@@ -22,5 +23,6 @@ export default class ReceiptsScreen extends React.Component {
 const styles = StyleSheet.create({
   receiptsScreen: {
     flex: 1,
+    backgroundColor: GroceryGuruWhite
   }
 });

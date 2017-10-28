@@ -2,45 +2,17 @@ import React, { Component } from 'react';
 import { Platform, AsyncStorage, Text, View, FlatList, StyleSheet, Alert } from 'react-native';
 import { connect } from 'react-redux';
 
-import { GroceryGuruRed, GroceryGuruGreen, GroceryGuruPrimary, GroceryGuruYellow, GroceryGuruFadedYellow } from '../styles/Colors';
 import * as API from '../api/Endpoints';
+import * as actions from '../actions';
 import ReceiptListSyncBar from './ReceiptListSyncBar';
+import styles from '../styles/ReceiptList';
 
 export class ReceiptList extends React.Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      data: [],
-      timeStamp: null
-    };
   }
 
-  componentDidMount() {
-    if (this.props.currentUser != undefined) {
-      this.loadReceiptData();
-    }
-  }
-
-  async loadReceiptData() {
-    try {
-      const value = await AsyncStorage.getItem('@GroceryGuru:lastReceiptListState');
-      if (value !== null){
-        this.setState(JSON.parse(value));
-      } else {
-        this.fetchReceiptsFromAPI();
-      }
-    } catch (error) {
-      Alert.alert(
-        error.message,
-        '',
-        [{text: 'OK', onPress: () => true }],
-        { cancelable: false }
-      )
-    }
-  }
-
-  async fetchReceiptsFromAPI() {
+  async fetchReceiptsData() {
     if (this.props.currentUser === undefined) {
       Alert.alert(
         'Please log in',
@@ -61,11 +33,11 @@ export class ReceiptList extends React.Component {
     })
     .then(res => res.json())
     .then(res => {
-      this.setState({
+      debugger
+      this.props.receiptsDataLoaded({
         data: res,
         timeStamp: Math.floor(Date.now())
       });
-      this.saveCurrentState();
     })
     .catch( response => {
       Alert.alert(
@@ -75,14 +47,6 @@ export class ReceiptList extends React.Component {
         { cancelable: false }
       )
     })
-  }
-
-  async saveCurrentState() {
-    try {
-      AsyncStorage.setItem('@GroceryGuru:lastReceiptListState', JSON.stringify(this.state));
-    } catch (error) {
-      console.log(error);
-    }
   }
 
   renderReceipt = ({item}) => (
@@ -107,68 +71,36 @@ export class ReceiptList extends React.Component {
   }
 
   render() {
-    return (
-      <View style={styles.receiptListContainer}>
-        <ReceiptListSyncBar date={this.state.timeStamp} fetchReceipts={this.fetchReceiptsFromAPI.bind(this)} />
-        {
-          this.state.data.length === 0 &&
-          this.emptyStatsNotification()
-        }
-        <FlatList
-          style={styles.receiptList}
-          data={this.state.data}
-          renderItem={this.renderReceipt}
-        />
-      </View>
-    );
+    debugger
+    if (!this.props.receiptsData) {
+      return (
+        <View style={styles.receiptListContainer}>
+           <ReceiptListSyncBar fetchReceipts={this.fetchReceiptsData.bind(this)} />
+           { this.emptyStatsNotification() }
+        </View>
+      );
+    } else {
+      return (
+        <View style={styles.receiptListContainer}>
+           <ReceiptListSyncBar fetchReceipts={this.fetchReceiptsData.bind(this)} date={this.props.receiptsData.timeStamp} />
+           <FlatList
+             style={styles.receiptList}
+             data={this.props.receiptsData.data}
+             renderItem={this.renderReceipt}
+           />
+        </View>
+      );
+    }
   }
 }
 
 export default connect(
   state => ({
     currentUser: state.currentUser,
-    receiptData: state.data
+    receiptsData: state.receiptsData
   }),
   dispatch => ({
-    userLoggedIn: currentUser => dispatch(actions.userLoggedIn(currentUser)),
-    userLoggedOut: () => dispatch(actions.userLoggedOut())
+    receiptsDataLoaded: receiptsData => dispatch(actions.receiptsDataLoaded(receiptsData))
   })
 )(ReceiptList)
 
-const styles = StyleSheet.create({
-  receiptListContainer: {
-    flex: 1
-  },
-  emptyReceiptsContainer: {
-    borderColor: GroceryGuruYellow,
-    borderWidth: 1,
-    backgroundColor: GroceryGuruFadedYellow,
-    padding: 20,
-    margin: 12
-  },
-  emptyReceiptsContainerText: {
-    textAlign: 'center'
-  },
-  receiptListItem: {
-    height: 36,
-    padding: 8,
-    flexDirection: 'row',
-    borderBottomWidth: 1,
-    borderColor: GroceryGuruPrimary
-  },
-  completed: {
-    backgroundColor: GroceryGuruGreen
-  },
-  incomplete: {
-    backgroundColor: GroceryGuruRed
-  },
-  receiptListItemName: {
-    flex: 0.8
-  },
-  receiptListItemDate: {
-    flex: 0.2
-  },
-  receiptListItemDateText: {
-    textAlign: 'right'
-  }
-});
