@@ -11,10 +11,6 @@ import StyleSheet from '../styles/StatsScreen';
 export class StatsScreen extends React.Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      data: []
-    };
   }
 
   static navigationOptions = {
@@ -46,6 +42,7 @@ export class StatsScreen extends React.Component {
         console.log(res.error);
         return;
       }
+
       this.props.statsDataLoaded({
         data: res,
         timeStamp: Math.floor(Date.now())
@@ -72,11 +69,12 @@ export class StatsScreen extends React.Component {
   }
 
   renderStatsBox(dataString) {
-    if (Object.keys(this.state.data).length > 0  && this.state.data[dataString].length > 0) {
+    if (Object.keys(this.props.statsData).length === 0) return;
+    if (this.props.statsData.data[dataString]) {
       return (
         <View style={[StyleSheet.statsBox, styles[dataString]]}>
           <View style={StyleSheet.statsLabelWrapper}>
-            <Text style={StyleSheet.statsLabel}>{this.state.data[dataString].length} {this.statsLabelString(dataString)}</Text>
+            <Text style={StyleSheet.statsLabel}>{this.props.statsData.data[dataString].length} {this.statsLabelString(dataString)}</Text>
           </View>
         </View>
       );
@@ -86,11 +84,11 @@ export class StatsScreen extends React.Component {
   }
 
   render() {
-    if (this.state.data.length === 0) {
+    if (this.props.statsData === undefined) {
       return (
         <View style={StyleSheet.statsScreen}>
           <Banner />
-          <StatsSyncBar  fetchStatsData={this.fetchStatsData.bind(this)} date={this.state.timestamp} />
+          <StatsSyncBar  fetchStatsData={this.fetchStatsData.bind(this)} />
           <View style={StyleSheet.emptyStatsContainer}>
             <Text style={StyleSheet.emptyStatsContainerText}>
               You do not have stats to display.
@@ -103,7 +101,7 @@ export class StatsScreen extends React.Component {
       return (
         <View style={StyleSheet.statsScreen}>
           <Banner />
-          <StatsSyncBar fetchStatsData={this.fetchStatsData.bind(this)} date={this.state.timestamp} />
+          <StatsSyncBar fetchStatsData={this.fetchStatsData.bind(this)} date={this.props.statsData.timeStamp} />
           <View
             style={StyleSheet.statsContainer} >
             {this.renderStatsBox('worst-transactions')}
@@ -119,7 +117,7 @@ export class StatsScreen extends React.Component {
 export default connect(
   state => ({
     currentUser: state.currentUser,
-    statsData: state.data
+    statsData: state.statsData
   }),
   dispatch => ({
     statsDataLoaded: statsData => dispatch(actions.statsDataLoaded(statsData)),

@@ -127,7 +127,7 @@ export class HomeScreen extends React.Component {
             <Text style={StyleSheet.logoutButtonText}>
               Logout
             </Text>
-          </TouchableOpacity >
+          </TouchableOpacity>
         </View>
       );
     }
