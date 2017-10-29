@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
-import { Text, View, TextInput, Alert, TouchableOpacity, Image } from 'react-native';
+import { Text, View, TextInput, Alert } from 'react-native';
 import { connect } from 'react-redux';
-
-import Icon from 'react-native-vector-icons/MaterialIcons';
-const ImagePicker = require('react-native-image-picker');
 
 import Banner from '../components/Banner';
 import * as API from '../api/Endpoints';

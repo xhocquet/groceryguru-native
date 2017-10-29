@@ -17,6 +17,10 @@ export default styles = StyleSheet.create({
     bottom: 0,
     right: 0,
   },
+  cropIcon: {
+    fontSize: 36,
+    color: GroceryGuruWhite
+  },
   uploadButton: {
     backgroundColor: GroceryGuruPrimary,
     height: 200,
