@@ -1,33 +1,24 @@
 import React, { Component } from 'react';
-import { Text, View, Alert } from 'react-native';
+import { Text, View } from 'react-native';
 import { connect } from 'react-redux';
 
 import * as API from '../api/Endpoints';
 import * as actions from '../actions';
+import * as SimpleAlert from '../utils/SimpleAlert';
 import Banner from '../components/Banner';
 import StatsSyncBar from '../components/StatsSyncBar';
 import StyleSheet from '../styles/StatsScreen';
 
 export class StatsScreen extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
-  static navigationOptions = {
-    tabBarLabel: 'Stats'
-  }
+  static navigationOptions = { tabBarLabel: 'Stats' }
 
   async fetchStatsData() {
+    debugger
     if (this.props.currentUser === undefined) {
-      Alert.alert(
-        'Please log in',
-        'We cannot sync your data without logging in.',
-        [{text: 'OK', onPress: () => true }],
-        { cancelable: false }
-      )
+      SimpleAlert.alert('Please log in','We cannot sync your data without logging in.')
       return;
     }
-
+    debugger
     fetch(API.statsIndex, {
       headers: {
         'Accept': 'application/json',
@@ -49,12 +40,7 @@ export class StatsScreen extends React.Component {
       })
     })
     .catch(function(response) {
-      Alert.alert(
-        response.message,
-        '',
-        [{text: 'OK', onPress: () => true }],
-        { cancelable: false }
-      )
+      SimpleAlert.alert(response.message);
     })
   }
 

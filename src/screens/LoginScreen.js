@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Text, View, TextInput, Alert } from 'react-native';
+import { Text, View, TextInput } from 'react-native';
 import { connect } from 'react-redux';
 
 import Banner from '../components/Banner';
 import * as API from '../api/Endpoints';
+import * as SimpleAlert from '../utils/SimpleAlert';
 import { GroceryGuruPrimary } from '../styles/Colors';
 import * as actions from '../actions';
 import StyleSheet from '../styles/HomeScreen';
@@ -43,21 +44,11 @@ export class LoginScreen extends React.Component {
       if (res.success) {
         this.props.userLoggedIn(res);
       } else {
-        Alert.alert(
-          res.message,
-          '',
-          [{text: 'OK', onPress: () => true }],
-          { cancelable: false }
-        )
+        SimpleAlert.alert(res.message);
       }
     })
     .catch(function(response) {
-      Alert.alert(
-        response.message,
-        '',
-        [{text: 'OK', onPress: () => true }],
-        { cancelable: false }
-      )
+      SimpleAlert.alert(response.message);
     })
   }
 

@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 import Banner from '../components/Banner';
 import ReceiptList from '../components/ReceiptList';
 import { GroceryGuruWhite } from '../styles/Colors';
 
 export default class ReceiptsScreen extends React.Component {
-  static navigationOptions = {
-    tabBarLabel: 'Receipts'
-  }
+  static navigationOptions = { tabBarLabel: 'Receipts' }
 
   render() {
     return (

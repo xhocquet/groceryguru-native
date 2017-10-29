@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, Alert, TouchableOpacity, Image } from 'react-native';
+import { Text, View, TouchableOpacity, Image } from 'react-native';
 import { connect } from 'react-redux';
 
 const ImagePicker = require('react-native-image-picker');

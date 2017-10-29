@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Platform, AsyncStorage, Text, View, FlatList, StyleSheet, Alert } from 'react-native';
+import { Text, View, FlatList } from 'react-native';
 import { connect } from 'react-redux';
 
 import * as API from '../api/Endpoints';
 import * as actions from '../actions';
+import * as SimpleAlert from '../utils/SimpleAlert';
 import ReceiptListSyncBar from './ReceiptListSyncBar';
 import styles from '../styles/ReceiptList';
 
@@ -14,12 +15,7 @@ export class ReceiptList extends React.Component {
 
   async fetchReceiptsData() {
     if (this.props.currentUser === undefined) {
-      Alert.alert(
-        'Please log in',
-        'We cannot sync your data without logging in.',
-        [{text: 'OK', onPress: () => true }],
-        { cancelable: false }
-      )
+      SimpleAlert.alert('Please log in','We cannot sync your data without logging in.');
       return;
     }
 
@@ -39,12 +35,7 @@ export class ReceiptList extends React.Component {
       });
     })
     .catch( response => {
-      Alert.alert(
-        response.message,
-        '',
-        [{text: 'OK', onPress: () => true }],
-        { cancelable: false }
-      )
+      SimpleAlert.alert(response.message);
     })
   }
 
