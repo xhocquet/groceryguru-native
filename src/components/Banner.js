@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { connect } from 'react-redux';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
+import * as actions from '../actions';
 import { GroceryGuruBlue, GroceryGuruWhite } from '../styles/Colors';
 
-export default class Banner extends React.Component {
+export class Banner extends React.Component {
   onIconClicked() {
-
+    this.props.userLoggedOut();
   }
 
   render() {
@@ -41,3 +43,13 @@ const styles = StyleSheet.create({
     lineHeight: 52
   }
 });
+
+
+export default connect(
+  state => ({
+    currentUser: state.currentUser,
+  }),
+  dispatch => ({
+    userLoggedOut: () => dispatch(actions.userLoggedOut()),
+  })
+)(Banner)
