@@ -16,6 +16,7 @@ export const GroceryGuruNavigator = TabNavigator({
   Receipts: { screen: ReceiptsScreen }
 }, {
   tabBarPosition: 'bottom',
+  swipeEnabled: false,
   tabBarOptions: {
     labelStyle: {
       fontSize: 12,

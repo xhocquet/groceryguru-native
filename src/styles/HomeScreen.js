@@ -6,6 +6,9 @@ export default styles = StyleSheet.create({
     flex: 1,
     backgroundColor: GroceryGuruWhite,
   },
+  imageScreen: {
+    backgroundColor: "#ddd"
+  },
   content: {
     flex: 1,
     justifyContent: 'center'
@@ -18,8 +21,8 @@ export default styles = StyleSheet.create({
     right: 0,
   },
   cropIcon: {
-    fontSize: 36,
-    color: GroceryGuruWhite
+    fontSize: 40,
+    color: '#000'
   },
   uploadButton: {
     backgroundColor: GroceryGuruPrimary,
